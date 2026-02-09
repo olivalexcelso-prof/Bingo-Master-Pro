@@ -1,26 +1,22 @@
+import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
 
-{
-  "name": "bingo-master-pro",
-  "private": true,
-  "version": "1.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "start": "serve -s dist"
-  },
-  "dependencies": {
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
-    "lucide-react": "^0.563.0",
-    "socket.io-client": "^4.7.2",
-    "serve": "^14.2.4"
-  },
-  "devDependencies": {
-    "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0",
-    "@vitejs/plugin-react": "^4.3.4",
-    "vite": "^6.4.1"
-  }
-}
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// arquivos do Vite
+app.use(express.static(path.join(__dirname, "dist")));
+
+// fallback SPA
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
+});
+
+app.listen(PORT, () => {
+  console.log("Bingo Master Pro rodando na porta", PORT);
+});
+
